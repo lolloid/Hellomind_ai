@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>HelloMind — Teman Ngobrol yang Hadir</title>
+  <meta name="description"
+    content="HelloMind adalah ruang aman untuk berbagi cerita dan perasaan. Ngobrol santai, tanpa dihakimi." />
+  <meta name="theme-color" content="#0a0a1a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <link rel="icon" href="/static/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="/static/main.css" />
+  <style>
+    /* CRITICAL LAYOUT — inline to bypass browser cache */
+
+    /* Sidebar: positioning + visuals (width/transform controlled by JS toggle) */
+    .sidebar {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      bottom: 0 !important;
+      z-index: 200 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      background: linear-gradient(180deg, rgba(20, 20, 52, 0.99) 0%, rgba(12, 12, 36, 0.99) 100%) !important;
+      border-right: 1px solid rgba(99, 102, 241, 0.2) !important;
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3) !important;
+      padding: 14px 12px !important;
+      gap: 4px !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+    }
+
+    /* Force all sidebar content visible even if collapsed class present */
+    /* Nice rename/delete button styling */
+    .history-action {
+      background: transparent !important;
+      border: none !important;
+      cursor: pointer !important;
+      padding: 6px 8px !important;
+      border-radius: 6px !important;
+      font-size: 14px !important;
+      transition: all 0.2s ease !important;
+      opacity: 0.6 !important;
+      position: relative !important;
+      z-index: 10 !important;
+      pointer-events: auto !important;
+      min-width: 28px !important;
+      min-height: 28px !important;
+    }
+
+    .history-action:hover {
+      opacity: 1 !important;
+      background: rgba(99, 102, 241, 0.12) !important;
+      transform: scale(1.15) !important;
+    }
+
+    .history-action.delete:hover {
+      background: rgba(248, 113, 113, 0.15) !important;
+    }
+
+    /* Kill hero animations */
+    #hero h1 {
+      animation: none !important;
+    }
+
+    .hero-icon {
+      animation: none !important;
+    }
+
+    .hero-icon-glow {
+      animation: none !important;
+      opacity: 0.35 !important;
+    }
+
+    /* Input: no visible box */
+    .input-wrapper {
+      border: none !important;
+      background: rgba(18, 18, 48, 0.7) !important;
+    }
+
+    .input-wrapper:focus-within {
+      box-shadow: none !important;
+      border: none !important;
+      outline: none !important;
+    }
+
+    input,
+    input:focus {
+      outline: none !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    /* Desktop polish */
+    @media (min-width: 769px) {
+      .app {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .hero-content {
+        padding-top: 48px !important;
+      }
+
+      .mood-btn {
+        padding: 14px 18px !important;
+        min-width: 72px !important;
+      }
+    }
+
+    /* Mobile: sidebar completely hidden */
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none !important;
+      }
+
+      .layout {
+        margin-left: 0 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Ambient background -->
+  <div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+  </div>
+
+  <!-- Mobile sidebar overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar (fixed, outside layout) -->
+  <aside class="sidebar" id="sidebar"
+    style="position:fixed;top:0;left:0;bottom:0;width:260px;z-index:200;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(20,20,52,0.99),rgba(12,12,36,0.99));border-right:1px solid rgba(99,102,241,0.2);box-shadow:4px 0 24px rgba(0,0,0,0.3);padding:14px 12px;gap:4px;overflow-x:hidden">
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <img src="/static/logo1.png" alt="HelloMind" />
+        <span class="brand-text">HelloMind</span>
+      </div>
+    </div>
+
+    <button id="newChatBtn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19" />
+        <line x1="5" y1="12" x2="19" y2="12" />
+      </svg>
+      <span>Obrolan Baru</span>
+    </button>
+
+    <div class="sidebar-section-label">Fitur</div>
+    <div class="sidebar-features">
+      <button class="feature-btn" id="breathingBtn"><span class="feature-icon">🫁</span><span
+          class="feature-label">Pernapasan</span></button>
+      <button class="feature-btn" id="journalBtn"><span class="feature-icon">📝</span><span
+          class="feature-label">Journaling</span></button>
+      <button class="feature-btn" id="tipsBtn"><span class="feature-icon">💡</span><span
+          class="feature-label">Tips</span></button>
+    </div>
+
+    <div class="sidebar-section-label">Riwayat</div>
+    <div id="history"></div>
+  </aside>
+
+  <!-- Inline sidebar controller — runs immediately, no cache dependency -->
+  <script>
+    (function () {
+      var sb = document.getElementById('sidebar');
+      function isMob() { return window.innerWidth <= 768; }
+
+      // Elements to hide text on
+      var textEls = '.brand-text, #newChatBtn span, .sidebar-section-label, .feature-label, #history, .history-item';
+
+      function showSB() {
+        sb.style.display = 'flex';
+        sb.style.width = '260px';
+        sb.style.overflowX = 'hidden';
+        sb.style.overflowY = 'auto';
+        sb.style.transform = 'none';
+        sb.style.transition = 'width 0.25s ease';
+        sb.style.padding = '14px 12px';
+        sb.style.alignItems = '';
+        var l = document.querySelector('.layout');
+        if (l) { l.style.marginLeft = '260px'; l.style.transition = 'margin-left 0.25s ease'; }
+        // Show all text
+        var els = sb.querySelectorAll(textEls);
+        for (var i = 0; i < els.length; i++) { els[i].style.display = ''; els[i].style.opacity = '1'; }
+        // Show newChatBtn
+        var ncb = document.getElementById('newChatBtn');
+        if (ncb) { ncb.style.display = ''; }
+        // Reset feature buttons
+        var features = sb.querySelector('.sidebar-features');
+        if (features) { features.style.flexDirection = ''; features.style.alignItems = ''; features.style.gap = ''; }
+        var fbtns = sb.querySelectorAll('.feature-btn');
+        for (var i = 0; i < fbtns.length; i++) { fbtns[i].style.justifyContent = ''; fbtns[i].style.padding = ''; fbtns[i].style.width = ''; }
+        // Reset brand
+        var brandD = sb.querySelector('.sidebar-brand');
+        if (brandD) { brandD.style.justifyContent = ''; }
+        var brandI = sb.querySelector('.sidebar-brand img');
+        if (brandI) { brandI.style.margin = ''; }
+        isOpen = true;
+      }
+
+      function hideSB() {
+        sb.style.width = '56px';
+        sb.style.overflowX = 'hidden';
+        sb.style.overflowY = 'hidden';
+        sb.style.transform = 'none';
+        sb.style.transition = 'width 0.25s ease';
+        sb.style.padding = '12px 0';
+        sb.style.alignItems = 'center';
+        var l = document.querySelector('.layout');
+        if (l) { l.style.marginLeft = '56px'; l.style.transition = 'margin-left 0.25s ease'; }
+        // Hide text + history
+        var els = sb.querySelectorAll(textEls);
+        for (var i = 0; i < els.length; i++) { els[i].style.display = 'none'; }
+        // Hide newChatBtn
+        var ncb = document.getElementById('newChatBtn');
+        if (ncb) ncb.style.display = 'none';
+        // Center feature icons vertically
+        var features = sb.querySelector('.sidebar-features');
+        if (features) { features.style.flexDirection = 'column'; features.style.alignItems = 'center'; features.style.gap = '8px'; }
+        var fbtns = sb.querySelectorAll('.feature-btn');
+        for (var i = 0; i < fbtns.length; i++) { fbtns[i].style.justifyContent = 'center'; fbtns[i].style.padding = '10px'; fbtns[i].style.width = '44px'; }
+        // Center brand image
+        var brandD = sb.querySelector('.sidebar-brand');
+        if (brandD) { brandD.style.justifyContent = 'center'; }
+        var brandI = sb.querySelector('.sidebar-brand img');
+        if (brandI) { brandI.style.margin = '0 auto'; }
+        isOpen = false;
+      }
+
+      var isOpen = true;
+
+      function fixSB() {
+        if (isMob()) {
+          sb.style.display = 'none';
+          var l = document.querySelector('.layout');
+          if (l) l.style.marginLeft = '0';
+        } else {
+          if (isOpen) showSB(); else hideSB();
+        }
+      }
+
+      // Logo click toggles sidebar
+      var brand = sb.querySelector('.sidebar-brand');
+      if (brand) {
+        brand.style.cursor = 'pointer';
+        brand.addEventListener('click', function () {
+          if (!isMob()) {
+            if (isOpen) hideSB(); else showSB();
+          }
+        });
+      }
+
+      // Feature icons click opens sidebar when collapsed
+      var featureBtns = sb.querySelectorAll('.feature-btn');
+      for (var i = 0; i < featureBtns.length; i++) {
+        featureBtns[i].addEventListener('click', function () {
+          if (!isOpen && !isMob()) showSB();
+        });
+      }
+
+      sb.classList.remove('collapsed');
+      document.body.classList.remove('sidebar-collapsed');
+      window.addEventListener('resize', fixSB);
+      fixSB();
+    })();
+  </script>
+
+  <!-- Main Layout -->
+  <div class="layout" style="margin-left:260px">
+    <main class="app">
+
+
+
+      <!-- Hero Section -->
+      <div id="hero">
+        <div class="hero-content">
+          <div class="hero-icon-wrap">
+            <div class="hero-icon-glow"></div>
+            <div class="hero-icon">💭</div>
+          </div>
+          <h1>HelloMind</h1>
+          <p class="hero-subtitle">Tempat aman untuk ngobrol dan berbagi cerita.<br />Tanpa dihakimi, tanpa dinilai.</p>
+
+          <!-- Mood Check-in -->
+          <div class="mood-checkin" id="moodCheckin">
+            <p class="mood-label">Gimana perasaanmu hari ini?</p>
+            <div class="mood-options">
+              <button class="mood-btn" data-mood="senang"><span class="mood-emoji">😊</span><span
+                  class="mood-name">Senang</span></button>
+              <button class="mood-btn" data-mood="biasa"><span class="mood-emoji">😐</span><span
+                  class="mood-name">Biasa</span></button>
+              <button class="mood-btn" data-mood="sedih"><span class="mood-emoji">😢</span><span
+                  class="mood-name">Sedih</span></button>
+              <button class="mood-btn" data-mood="cemas"><span class="mood-emoji">😰</span><span
+                  class="mood-name">Cemas</span></button>
+              <button class="mood-btn" data-mood="marah"><span class="mood-emoji">😤</span><span
+                  class="mood-name">Marah</span></button>
+            </div>
+          </div>
+
+          <!-- Prompt Cards -->
+          <div class="examples">
+            <button class="prompt-card" onclick="sendQuick('aku lagi capek banget akhir-akhir ini')">
+              <span class="prompt-icon">😔</span><span class="prompt-text">Aku lagi capek banget</span>
+            </button>
+            <button class="prompt-card" onclick="sendQuick('lagi bingung soal hidup')">
+              <span class="prompt-icon">🤔</span><span class="prompt-text">Lagi bingung soal hidup</span>
+            </button>
+            <button class="prompt-card" onclick="sendQuick('aku ngerasa sendirian')">
+              <span class="prompt-icon">🌙</span><span class="prompt-text">Aku ngerasa sendirian</span>
+            </button>
+            <button class="prompt-card" onclick="sendQuick('aku butuh teman cerita')">
+              <span class="prompt-icon">💬</span><span class="prompt-text">Aku butuh teman cerita</span>
+            </button>
+          </div>
+
+          <!-- Wellness Carousel -->
+          <div class="wellness-carousel" id="wellnessCarousel">
+            <div class="wellness-track" id="wellnessTrack">
+              <div class="wellness-card"><span class="wellness-icon">🧘</span>
+                <p>Tarik napas dalam 4 detik, tahan 7 detik, buang 8 detik. Teknik 4-7-8 bisa bantu menenangkan.</p>
+              </div>
+              <div class="wellness-card"><span class="wellness-icon">🌿</span>
+                <p>Jalan kaki 15 menit di luar bisa ningkatin mood dan ngurangin stres secara signifikan.</p>
+              </div>
+              <div class="wellness-card"><span class="wellness-icon">📱</span>
+                <p>Coba social media detox 1 jam sebelum tidur. Kualitas tidurmu bisa jauh lebih baik.</p>
+              </div>
+              <div class="wellness-card"><span class="wellness-icon">💧</span>
+                <p>Minum air putih yang cukup. Dehidrasi ringan aja bisa bikin mood drop.</p>
+              </div>
+              <div class="wellness-card"><span class="wellness-icon">🎵</span>
+                <p>Dengerin musik yang kamu suka selama 10 menit bisa nurunin level kortisol (hormon stres).</p>
+              </div>
+            </div>
+            <div class="wellness-dots" id="wellnessDots"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Area -->
+      <div id="chat" aria-live="polite"></div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <div class="disclaimer">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          HelloMind bukan pengganti konsultasi profesional. Darurat: <strong>119 ext. 8</strong>
+        </div>
+        <div class="input-wrapper">
+          <input id="input" placeholder="Ketik pesanmu di sini..." autocomplete="off" />
+          <button id="sendBtn" aria-label="Kirim pesan">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Breathing Modal -->
+  <div class="modal-overlay" id="breathingModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeBreathingModal">&times;</button>
+      <h2>🫁 Latihan Pernapasan 4-7-8</h2>
+      <p class="modal-desc">Teknik ini membantu menenangkan pikiran dan tubuh. Ikuti lingkaran di bawah.</p>
+      <div class="breathing-circle-wrap">
+        <div class="breathing-circle" id="breathingCircle">
+          <span class="breathing-text" id="breathingText">Mulai</span>
+          <span class="breathing-timer" id="breathingTimer"></span>
+        </div>
+      </div>
+      <div class="breathing-controls">
+        <button class="btn-primary" id="startBreathingBtn">Mulai Latihan</button>
+        <p class="breathing-cycles" id="breathingCycles"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Journal Modal -->
+  <div class="modal-overlay" id="journalModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeJournalModal">&times;</button>
+      <h2>📝 Journaling Prompt</h2>
+      <p class="modal-desc">Tulis apa yang ada di pikiranmu. Tidak ada jawaban yang salah.</p>
+      <div class="journal-prompt-card" id="journalPromptCard">
+        <p id="journalPromptText">Loading...</p>
+      </div>
+      <div class="journal-actions">
+        <button class="btn-outline" id="shufflePromptBtn">🔄 Prompt Lain</button>
+        <button class="btn-primary" id="usePromptBtn">Gunakan di Obrolan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips Modal -->
+  <div class="modal-overlay" id="tipsModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeTipsModal">&times;</button>
+      <h2>💡 Tips Kesehatan Mental</h2>
+      <div class="tips-grid" id="tipsGrid"></div>
+    </div>
+  </div>
+
+  <!-- History Modal -->
+  <div class="modal-overlay" id="historyModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeHistoryModal">&times;</button>
+      <h2>📋 Riwayat Obrolan</h2>
+      <button class="btn-primary history-new-chat" id="historyNewChatBtn">+ Obrolan Baru</button>
+      <div id="historyModalList"></div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav">
+    <div class="nav-items">
+      <button class="nav-item" id="navHistory">
+        <span class="nav-icon">📋</span><span>Riwayat</span>
+      </button>
+      <button class="nav-item" id="navJournal">
+        <span class="nav-icon">📝</span><span>Jurnal</span>
+      </button>
+      <button class="nav-item" id="navFeatures">
+        <span class="nav-icon">🫁</span><span>Napas</span>
+      </button>
+      <button class="nav-item" id="navTips">
+        <span class="nav-icon">💡</span><span>Tips</span>
+      </button>
+    </div>
+  </nav>
+
+  <footer class="footer">
+    <p>© 2025 HelloMind — Politeknik Mitra Industri</p>
+  </footer>
+
+  <script src="/static/main.js"></script>
+</body>
+
+</html>
