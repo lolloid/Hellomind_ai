@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HelloMind — Mood Dashboard</title>
+  <meta name="description" content="Lihat analytics mood dan emosi kamu selama berinteraksi dengan HelloMind." />
+  <meta name="theme-color" content="#0a0a1a" />
+
+  <link rel="icon" href="/static/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+  <!-- Ambient background -->
+  <div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <div class="dash-layout">
+    <!-- Top Nav -->
+    <nav class="dash-nav">
+      <a href="/" class="dash-back" id="backBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        Kembali ke Chat
+      </a>
+      <div class="dash-nav-center">
+        <img src="/static/logo1.png" alt="HelloMind" class="dash-nav-logo" />
+        <span class="dash-nav-title">Mood Dashboard</span>
+      </div>
+      <div class="dash-nav-right">
+        <select id="dayRange" class="dash-select">
+          <option value="7">7 Hari</option>
+          <option value="14">14 Hari</option>
+          <option value="30" selected>30 Hari</option>
+        </select>
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="dash-content">
+      <!-- Summary Cards -->
+      <div class="dash-cards">
+        <div class="dash-card">
+          <div class="card-icon">🎯</div>
+          <div class="card-info">
+            <span class="card-value" id="totalEntries">—</span>
+            <span class="card-label">Total Entri Mood</span>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="card-icon" id="dominantIcon">😐</div>
+          <div class="card-info">
+            <span class="card-value" id="dominantEmotion">—</span>
+            <span class="card-label">Emosi Dominan</span>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="card-icon">⚡</div>
+          <div class="card-info">
+            <span class="card-value" id="avgIntensity">—</span>
+            <span class="card-label">Rata-rata Intensitas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="dash-charts">
+        <div class="chart-card">
+          <h3 class="chart-title">📈 Tren Mood Harian</h3>
+          <div class="chart-container">
+            <canvas id="moodTrendChart"></canvas>
+          </div>
+        </div>
+        <div class="chart-card chart-small">
+          <h3 class="chart-title">🎭 Distribusi Emosi</h3>
+          <div class="chart-container doughnut-container">
+            <canvas id="emotionDistChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Entries -->
+      <div class="dash-recent">
+        <h3 class="section-title">📝 Entri Terakhir</h3>
+        <div class="recent-list" id="recentList">
+          <div class="recent-empty">Belum ada data mood. Mulai ngobrol di chat untuk merekam mood!</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/static/dashboard.js"></script>
+</body>
+
+</html>

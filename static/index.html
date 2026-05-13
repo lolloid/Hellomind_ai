@@ -3,17 +3,29 @@
 
 <head>
   <meta charset="UTF-8" />
+<<<<<<< HEAD
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+=======
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+>>>>>>> 27e88cda7da66357dfcba746088dfc3c90b0c9d0
   <title>HelloMind — Teman Ngobrol yang Hadir</title>
   <meta name="description"
     content="HelloMind adalah ruang aman untuk berbagi cerita dan perasaan. Ngobrol santai, tanpa dihakimi." />
   <meta name="theme-color" content="#0a0a1a" />
+<<<<<<< HEAD
+=======
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+>>>>>>> 27e88cda7da66357dfcba746088dfc3c90b0c9d0
 
   <link rel="icon" href="/static/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<<<<<<< HEAD
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/static/style.css?v=3" />
+=======
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet" />
 
@@ -128,10 +140,29 @@
       }
     }
   </style>
+>>>>>>> 27e88cda7da66357dfcba746088dfc3c90b0c9d0
 </head>
 
 <body>
 
+<<<<<<< HEAD
+  <!-- Ambient background removed for debugging -->
+
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <button id="sidebarToggle" aria-label="Toggle sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
+
+=======
   <!-- Ambient background -->
   <div class="ambient-bg">
     <div class="orb orb-1"></div>
@@ -147,10 +178,88 @@
   <aside class="sidebar" id="sidebar"
     style="position:fixed;top:0;left:0;bottom:0;width:260px;z-index:200;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(20,20,52,0.99),rgba(12,12,36,0.99));border-right:1px solid rgba(99,102,241,0.2);box-shadow:4px 0 24px rgba(0,0,0,0.3);padding:14px 12px;gap:4px;overflow-x:hidden">
     <div class="sidebar-header">
+>>>>>>> 27e88cda7da66357dfcba746088dfc3c90b0c9d0
       <div class="sidebar-brand">
         <img src="/static/logo1.png" alt="HelloMind" />
         <span class="brand-text">HelloMind</span>
       </div>
+<<<<<<< HEAD
+
+      <button id="newChatBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round">
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        <span data-i18n="new_chat">Obrolan Baru</span>
+      </button>
+
+      <div class="history-label" data-i18n="history">Riwayat</div>
+      <div id="history"></div>
+
+      <div class="sidebar-footer">
+        <!-- Language Switcher -->
+        <div class="lang-switcher">
+          <button id="langId" class="lang-btn active" onclick="setLanguage('id')">ID</button>
+          <button id="langEn" class="lang-btn" onclick="setLanguage('en')">EN</button>
+        </div>
+
+        <!-- User Menu -->
+        <div class="user-menu" id="userMenu">
+          <div class="user-avatar" id="userAvatar">U</div>
+          <div class="user-info">
+            <div class="user-name" id="userName">User</div>
+            <div class="user-links">
+              <a href="/dashboard" class="user-link">Dashboard</a>
+              <span class="user-link-sep">•</span>
+              <button class="user-link" onclick="openSettings()" data-i18n="settings">Pengaturan</button>
+              <span class="user-link-sep">•</span>
+              <button class="user-link logout-btn" onclick="logout()" data-i18n="logout">Keluar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="app">
+      <!-- Top Bar (Mobile) -->
+      <div class="mobile-topbar">
+        <button id="mobileSidebarToggle" aria-label="Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <span class="mobile-title">HelloMind</span>
+        <a href="/dashboard" class="mobile-dash">📊</a>
+      </div>
+
+      <!-- Hero Section -->
+      <div id="hero">
+        <div class="hero-icon">💭</div>
+        <h1 data-i18n="hero_title">HelloMind</h1>
+        <p data-i18n="hero_subtitle">Tempat aman untuk ngobrol dan berbagi cerita.<br />Tanpa dihakimi, tanpa dinilai.</p>
+
+        <div class="examples">
+          <button class="prompt-card" onclick="sendQuick(getI18n('prompt_1'))">
+            <span class="prompt-icon">😔</span>
+            <span class="prompt-text" data-i18n="prompt_1">Aku lagi capek banget</span>
+          </button>
+          <button class="prompt-card" onclick="sendQuick(getI18n('prompt_2'))">
+            <span class="prompt-icon">🤔</span>
+            <span class="prompt-text" data-i18n="prompt_2">Lagi bingung soal hidup</span>
+          </button>
+          <button class="prompt-card" onclick="sendQuick(getI18n('prompt_3'))">
+            <span class="prompt-icon">🌙</span>
+            <span class="prompt-text" data-i18n="prompt_3">Aku ngerasa sendirian</span>
+          </button>
+          <button class="prompt-card" onclick="sendQuick(getI18n('prompt_4'))">
+            <span class="prompt-icon">💬</span>
+            <span class="prompt-text" data-i18n="prompt_4">Aku butuh teman cerita</span>
+          </button>
+=======
     </div>
 
     <button id="newChatBtn">
@@ -352,37 +461,182 @@
             </div>
             <div class="wellness-dots" id="wellnessDots"></div>
           </div>
+>>>>>>> 27e88cda7da66357dfcba746088dfc3c90b0c9d0
         </div>
       </div>
 
       <!-- Chat Area -->
       <div id="chat" aria-live="polite"></div>
 
+<<<<<<< HEAD
+      <!-- Webcam Preview (floating) -->
+      <div class="webcam-container" id="webcamContainer">
+        <video id="webcamVideo" autoplay muted playsinline></video>
+        <button class="webcam-close" id="webcamClose" aria-label="Tutup kamera">✕</button>
+        <div class="webcam-status" id="webcamStatus">
+          <span class="webcam-dot"></span>
+          <span>LIVE</span>
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <div class="badges-row">
+          <!-- Text Emotion Badge -->
+          <div class="emotion-badge text-emotion" id="textEmotionBadge" style="display: none;">
+            <span class="emotion-icon" id="textEmotionIcon">📝</span>
+            <span class="emotion-text" id="textEmotionText">Netral</span>
+          </div>
+
+          <!-- Face Emotion Badge -->
+          <div class="emotion-badge" id="emotionBadge">
+            <span class="emotion-icon" id="emotionIcon">😐</span>
+            <span class="emotion-text" id="emotionText">Netral</span>
+          </div>
+        </div>
+
+        <div class="disclaimer">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+=======
       <!-- Input Area -->
       <div class="input-area">
         <div class="disclaimer">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+>>>>>>> 27e88cda7da66357dfcba746088dfc3c90b0c9d0
             stroke-linecap="round">
             <circle cx="12" cy="12" r="10" />
             <line x1="12" y1="8" x2="12" y2="12" />
             <line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
+<<<<<<< HEAD
+          <span data-i18n="disclaimer">HelloMind bukan pengganti konsultasi profesional. Darurat: <strong>119 ext. 8</strong></span>
+        </div>
+        <div class="input-wrapper">
+          <input id="input" data-i18n-placeholder="input_placeholder" placeholder="Ketik atau bicara pesanmu..." autocomplete="off" />
+          
+          <!-- TTS Toggle -->
+          <button id="ttsBtn" class="tts-btn" aria-label="Toggle Text-to-Speech" title="Auto-speak bot replies">
+            <svg class="tts-icon-off" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <line x1="23" y1="9" x2="17" y2="15"></line>
+              <line x1="17" y1="9" x2="23" y2="15"></line>
+            </svg>
+            <svg class="tts-icon-on" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+          </button>
+
+          <!-- Mic -->
+          <button id="micBtn" class="mic-btn" aria-label="Toggle mikrofon" title="Bicara dengan suara">
+            <svg class="mic-icon-default" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+              <line x1="12" y1="19" x2="12" y2="23" />
+              <line x1="8" y1="23" x2="16" y2="23" />
+            </svg>
+            <svg class="mic-icon-active" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="6" y="6" width="12" height="12" rx="2" />
+            </svg>
+            <div class="mic-pulse-ring"></div>
+          </button>
+          
+          <!-- Camera -->
+          <button id="cameraBtn" class="camera-btn" aria-label="Toggle kamera" title="Aktifkan deteksi emosi wajah">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+              <circle cx="12" cy="13" r="4" />
+            </svg>
+            <div class="camera-loading">
+              <div class="camera-spinner"></div>
+            </div>
+          </button>
+          
+          <!-- Send -->
+          <button id="sendBtn" aria-label="Kirim pesan">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+=======
           HelloMind bukan pengganti konsultasi profesional. Darurat: <strong>119 ext. 8</strong>
         </div>
         <div class="input-wrapper">
           <input id="input" placeholder="Ketik pesanmu di sini..." autocomplete="off" />
           <button id="sendBtn" aria-label="Kirim pesan">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+>>>>>>> 27e88cda7da66357dfcba746088dfc3c90b0c9d0
               stroke-linecap="round" stroke-linejoin="round">
               <line x1="22" y1="2" x2="11" y2="13"></line>
               <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
             </svg>
           </button>
         </div>
+<<<<<<< HEAD
+
+        <!-- Voice Status -->
+        <div class="voice-status" id="voiceStatus">
+          <div class="voice-wave">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <span class="voice-label" data-i18n="listening">Mendengarkan...</span>
+        </div>
+
+        <div class="voice-draft" id="voiceDraft" style="display: none;">
+          <span id="voiceDraftText"></span>
+          <div class="voice-draft-actions">
+            <button id="voiceClearBtn" type="button" data-i18n="voice_clear">Ulangi</button>
+            <button id="voiceSendBtn" type="button" data-i18n="voice_send">Kirim</button>
+          </div>
+        </div>
+=======
+>>>>>>> 27e88cda7da66357dfcba746088dfc3c90b0c9d0
       </div>
     </main>
   </div>
 
+<<<<<<< HEAD
+  <!-- Camera Privacy Modal -->
+  <div id="cameraPrivacyModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content privacy-modal">
+      <div class="modal-header">
+        <h2 data-i18n="camera_privacy_title">Aktifkan Kamera?</h2>
+        <button class="modal-close" onclick="closeCameraPrivacy()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p data-i18n="camera_privacy_body">Kamera hanya dipakai di browser kamu untuk membaca ekspresi secara kasar agar obrolan terasa lebih peka. Video tidak disimpan dan tidak dikirim ke server.</p>
+        <div class="privacy-points">
+          <span data-i18n="camera_privacy_point_1">Kamu bisa mematikannya kapan saja.</span>
+          <span data-i18n="camera_privacy_point_2">Hasil emosi hanya sinyal bantu, bukan penilaian pasti.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeCameraPrivacy()" data-i18n="cancel">Batal</button>
+        <button class="btn-primary" onclick="confirmCameraPrivacy()" data-i18n="camera_allow">Aktifkan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 data-i18n="settings_title">Pengaturan Personalize</h2>
+        <button class="modal-close" onclick="closeSettings()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="aiNameInput" data-i18n="ai_name_label">Nama AI</label>
+          <input type="text" id="aiNameInput" placeholder="HelloMind" class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="aiPersonaInput" data-i18n="ai_persona_label">Sifat & Persona AI</label>
+          <textarea id="aiPersonaInput" class="form-input" rows="4" placeholder="Kamu adalah AI pendamping kesehatan mental yang empatik..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeSettings()" data-i18n="cancel">Batal</button>
+        <button class="btn-primary" onclick="saveSettings()" data-i18n="save">Simpan</button>
+=======
   <!-- Breathing Modal -->
   <div class="modal-overlay" id="breathingModal">
     <div class="modal-content">
@@ -398,10 +652,17 @@
       <div class="breathing-controls">
         <button class="btn-primary" id="startBreathingBtn">Mulai Latihan</button>
         <p class="breathing-cycles" id="breathingCycles"></p>
+>>>>>>> 27e88cda7da66357dfcba746088dfc3c90b0c9d0
       </div>
     </div>
   </div>
 
+<<<<<<< HEAD
+  <script src="/static/app.js?v=5"></script>
+</body>
+
+</html>
+=======
   <!-- Journal Modal -->
   <div class="modal-overlay" id="journalModal">
     <div class="modal-content">
@@ -463,3 +724,4 @@
 </body>
 
 </html>
+>>>>>>> 27e88cda7da66357dfcba746088dfc3c90b0c9d0
